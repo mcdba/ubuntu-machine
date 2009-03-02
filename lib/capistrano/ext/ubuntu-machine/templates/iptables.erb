@@ -19,6 +19,16 @@
 -A INPUT -p tcp --dport 80 -j ACCEPT
 -A INPUT -p tcp --dport 443 -j ACCEPT
 
+<% if hosting_provider=="scalr"%>
+# scalr monitoring - need to restrict this by IP address
+-A INPUT -p udp --dport 161 -s 174.132.108.66 -j ACCEPT
+-A INPUT -p udp --dport 162 -s 174.132.108.66 -j ACCEPT
+-A INPUT -p udp --dport 161 -s 174.132.97.130 -j ACCEPT
+-A INPUT -p udp --dport 162 -s 174.132.97.130 -j ACCEPT
+<% end %>
+
+#  Allows https SVN connection
+-A INPUT -p tcp ! --syn --sport 443 --dport 1024: -j ACCEPT
 
 #  Allows SSH connections
 #

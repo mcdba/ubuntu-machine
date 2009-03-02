@@ -10,30 +10,42 @@ namespace :gems do
     run "rm -Rf rubygems-#{rubygem_version}*"
   end
   
+  desc "Install Gem Dependencies"
+  task :install_deps, :roles => :app do
+    sudo "aptitude install -y imagemagick libmagick9-dev"
+    sudo "aptitude install -y libxslt-dev"
+    sudo "aptitude install -y libopenssl-ruby" if ["aws", "scalr"].include?(hosting_provider)
+  end
+  
+  desc "Install github"
+  task :install_github, :roles => :app do
+    sudo "/opt/ruby-enterprise/bin/gem sources -a http://gems.github.com"
+  end
+    
   desc "List gems on remote server"
   task :list, :roles => :app do
-    stream "gem list"
+    stream "/opt/ruby-enterprise/bin/gem list"
   end
 
   desc "Update gems on remote server"
   task :update, :roles => :app do
-    sudo "gem update"
+    sudo "/opt/ruby-enterprise/bin/gem update"
   end
   
   desc "Update gem system on remote server"
   task :update_system, :roles => :app do
-    sudo "gem update --system"
+    sudo "/opt/ruby-enterprise/bin/gem update --system"
   end
 
   desc "Install a gem on the remote server"
   task :install, :roles => :app do
     name = Capistrano::CLI.ui.ask("Which gem should we install: ")
-    sudo "gem install #{name}"
+    sudo "/opt/ruby-enterprise/bin/gem install #{name}"
   end
 
   desc "Uninstall a gem on the remote server"
   task :uninstall, :roles => :app do
     name = Capistrano::CLI.ui.ask("Which gem should we uninstall: ")
-    sudo "gem uninstall #{name}"
+    sudo "/opt/ruby-enterprise/bin/gem uninstall #{name}"
   end
 end

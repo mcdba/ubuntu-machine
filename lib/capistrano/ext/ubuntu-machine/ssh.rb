@@ -6,7 +6,7 @@ namespace :ssh do
   DESC
   task :setup, :roles => :gateway do
     upload_keys
-    configure_sshd
+    configure_sshd unless ["aws", "scalr"].include?(hosting_provider)
     install_ovh_ssh_key if ["ovh-rps", "ovh-dedie"].include?(hosting_provider)
     reload
   end

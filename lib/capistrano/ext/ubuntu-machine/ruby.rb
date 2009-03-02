@@ -46,8 +46,8 @@ namespace :ruby do
   desc "Install Phusion Passenger"
   task :install_passenger, :roles => :app do
     # because  passenger-install-apache2-module do not find the rake installed by REE
-    sudo "gem install rake"
-
+    #sudo "gem install rake"
+    sudo "ln -s /opt/#{ruby_enterprise_version}/bin/rake /usr/bin/rake" if hosting_provider=="scalr"
     sudo "apt-get install apache2-mpm-prefork -y"
     sudo "aptitude install libapr1-dev -y"
     sudo "apt-get install apache2-prefork-dev -y"
@@ -62,6 +62,10 @@ namespace :ruby do
     sudo "mv /home/#{user}/passenger.load /etc/apache2/mods-available/"
     sudo "mv /home/#{user}/passenger.conf /etc/apache2/mods-available/"
 
+    sudo "a2enmod expires"
+    sudo "a2enmod headers"
+    sudo "a2enmod deflate"
+    sudo "a2enmod rewrite"
     sudo "a2enmod passenger"
     apache.force_reload
   end 
