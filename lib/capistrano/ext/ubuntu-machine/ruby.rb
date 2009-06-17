@@ -30,7 +30,7 @@ namespace :ruby do
   _cset :ruby_enterprise_path_prefix, '/opt'
   
   set :passenger_version do
-    `gem list passenger$ -r`.gsub(/[\n|\s|passenger|(|)]/,"")
+    `gem list passenger$ -r`.gsub(/[\n|\s|passenger|(|)]/,"").split(',').first
   end
   
 
