@@ -14,7 +14,13 @@ namespace :ruby do
   
 
   set :ruby_enterprise_url do
-    Net::HTTP.get('www.rubyenterpriseedition.com', '/download.html').scan(/http:.*\.tar\.gz/).first
+    path = Net::HTTP.get('www.rubyenterpriseedition.com', '/download.html').scan(/<a href=".*\/ruby-enterprise-.*\.tar\.gz"/).first
+    path.gsub!('<a href="','').gsub!('"','')
+    # in case they have relative URLs again:
+    if path[0,1] == '/'
+      path = 'http://www.rubyenterpriseedition.com%s' % path
+    end
+    path
   end
 
   set :ruby_enterprise_version do
