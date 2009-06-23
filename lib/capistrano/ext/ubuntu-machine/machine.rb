@@ -33,6 +33,7 @@ namespace :machine do
     ruby.install
     postfix.install
     gems.install_rubygems
+    gems.add_nodocs_to_gemrc
     ruby.install_enterprise
     ruby.make_enterprise_default
     ruby.install_passenger

@@ -36,4 +36,9 @@ namespace :gems do
     name = Capistrano::CLI.ui.ask("Which gem should we uninstall: ")
     sudo "gem uninstall #{name}"
   end
+
+  desc "Adds the --no-rdoc and --no-ri flags to the .gemrc; you don't need docs on a production server."
+  task :add_nodocs_to_gemrc, :roles => :app do
+    run "echo 'gem: --no-rdoc --no-ri' >> ~/.gemrc"
+  end
 end
