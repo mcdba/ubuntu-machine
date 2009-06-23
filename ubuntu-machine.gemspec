@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
                 "lib/capistrano/ext/ubuntu-machine/ssh.rb", 
                 "lib/capistrano/ext/ubuntu-machine/utils.rb", 
                 "lib/capistrano/ext/ubuntu-machine/templates/apache2.erb", 
+                "lib/capistrano/ext/ubuntu-machine/templates/deflate.conf.erb",
                 "lib/capistrano/ext/ubuntu-machine/templates/freetds.conf.erb",
                 "lib/capistrano/ext/ubuntu-machine/templates/iptables.erb", 
                 "lib/capistrano/ext/ubuntu-machine/templates/my.cnf.erb", 
