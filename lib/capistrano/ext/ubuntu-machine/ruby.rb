@@ -85,5 +85,13 @@ namespace :ruby do
     sudo "a2enmod passenger"
     apache.force_reload
   end
-       
+
+  desc 'Make Ruby Enterprise and Rubygems Enterprise default'
+  task :make_enterprise_default, :roles => :app do
+    sudo "ln -fs #{ruby_enterprise_path_prefix}/ruby-enterprise/bin/ruby /usr/bin/ruby"
+    sudo "ln -fs #{ruby_enterprise_path_prefix}/ruby-enterprise/bin/ri /usr/bin/ri"
+    sudo "ln -fs #{ruby_enterprise_path_prefix}/ruby-enterprise/bin/rdoc /usr/bin/rdoc"
+    sudo "ln -fs #{ruby_enterprise_path_prefix}/ruby-enterprise/bin/irb /usr/bin/irb"
+    sudo "ln -fs #{ruby_enterprise_path_prefix}/ruby-enterprise/bin/gem /usr/bin/gem"
+  end
 end
