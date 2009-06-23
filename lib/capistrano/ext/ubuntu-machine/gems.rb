@@ -41,4 +41,22 @@ namespace :gems do
   task :add_nodocs_to_gemrc, :roles => :app do
     run "echo 'gem: --no-rdoc --no-ri' >> ~/.gemrc"
   end
+
+  desc "Scp local gem to the remote server and install it"
+  task :deploy_local_gem, :roles => :app do
+    local_gem_path = Capistrano::CLI.ui.ask("Please supply the path to the local gem: ")
+    run "mkdir -p gems"
+    `scp -P #{ssh_options[:port]} #{File.expand_path(local_gem_path)} #{user}@#{server_name}:gems/`
+    sudo "gem install -l gems/#{File.basename(local_gem_path)}"
+  end
+
+  desc "Scp a set of local gems preconfigured in :local_gems_to_deploy to the remote server and install them"
+  task :deploy_local_gems, :roles => :app do
+    _cset(:local_gems_to_deploy) { abort "Please specify the local gems you want to deploy:\n  set :local_gems_to_deploy, ['/path/to/your_local-1.2.gem']" }
+    run "mkdir -p gems"
+    local_gems_to_deploy.each do |local_gem_path|
+      `scp -P #{ssh_options[:port]} #{File.expand_path(local_gem_path)} #{user}@#{server_name}:gems/`
+      sudo "gem install -l gems/#{File.basename(local_gem_path)}"
+    end
+  end
 end
