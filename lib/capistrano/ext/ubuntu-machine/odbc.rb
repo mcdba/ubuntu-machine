@@ -6,11 +6,10 @@ namespace :odbc do
 
   desc "Install ODBC/FreeTDS"
   task :install, :roles => :app do
-    run "cp /etc/profile ~/profile.tmp"
-    run "echo 'export ODBCINI=/etc/odbc.ini' >> ~/profile.tmp"
-    run "echo 'export ODBCSYSINI=/etc' >> ~/profile.tmp"
-    run "echo 'export FREETDSCONF=/etc/freetds/freetds.conf' >> ~/profile.tmp"
-    sudo "mv ~/profile.tmp /etc/profile"
+    profile_lines = ["export ODBCINI=/etc/odbc.ini",
+      "export ODBCSYSINI=/etc",
+      "export FREETDSCONF=/etc/freetds/freetds.conf"]
+    sudo_add_to_file('/etc/profile',profile_lines)
 
     freetds = "freetds-0.82"
     sudo "sudo apt-get install unixodbc unixodbc-dev tdsodbc -y"
