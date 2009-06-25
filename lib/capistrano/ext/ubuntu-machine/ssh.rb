@@ -11,7 +11,7 @@ namespace :ssh do
     reload
   end
 
-  desc "Uploads secundary ssh keys defined in ssh_secundary_keys which don't necessarily belong to you."
+  desc "Uploads secundary ssh pubkeys defined in ssh_secundary_keys which don't necessarily belong to you."
   task :add_secundary_keys, :roles => :gateway do
     run "mkdir -p ~/.ssh"
     run "chown -R #{user}:#{user} ~/.ssh"
