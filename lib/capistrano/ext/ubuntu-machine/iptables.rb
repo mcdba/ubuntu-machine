@@ -13,8 +13,6 @@ namespace :iptables do
     sudo "iptables-restore < /etc/iptables.up.rules"
     
     # ensure that the iptables rules are applied when we reboot the server
-    run "cat /etc/network/interfaces > ~/tmp_interfaces"
-    run "echo 'pre-up iptables-restore < /etc/iptables.up.rules' >> ~/tmp_interfaces"
-    sudo "mv ~/tmp_interfaces /etc/network/interfaces"
+    sudo_add_to_file('/etc/network/interfaces','pre-up iptables-restore < /etc/iptables.up.rules')
   end
 end
