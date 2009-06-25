@@ -2,12 +2,12 @@ Gem::Specification.new do |s|
   s.name     = "ubuntu-machine"
   s.version  = "0.5.3.2"
   s.date     = "2009-05-09"
-  s.summary  = "Capistrano recipes for setting up and deploying to a Ubuntu Machine"
-  s.email    = "thomas@suitmymind.com"
-  s.homepage = "http://suitmymind.github.com/ubuntu-machine"
+  s.summary  = "Capistrano recipes for setting up and deploying to a Ubuntu Machine. Fork of SuitMyMind's ubuntu-machine"
+  s.email    = "fixato@gmail.com"
+  s.homepage = "http://github.com/FiXato/ubuntu-machine"
   s.description = "Capistrano recipes for setting up and deploying to a Ubuntu Machine"
   s.has_rdoc = false
-  s.authors  = ["Thomas Balthazar"]
+  s.authors  = ["Thomas Balthazar","Tarik Alkasab","Filip H.F. 'FiXato' Slagter"]
   # s.files    = Dir["README", "MIT-LICENSE", "lib/capistrano/ext/**/*"]
   s.files    = ["README", 
                 "MIT-LICENSE", 
