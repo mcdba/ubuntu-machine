@@ -26,7 +26,9 @@ namespace :tmpfs do
       cmds << "chmod 0777 #{target_tmpfs_dir}"
       cmds.each{|cmd| sudo cmd}
       cron_commands << cmds.join(' && ')
-      sudo "ln -s #{File.join(vsftpd_tmpfs_directory,target_user)} ~#{target_user}/ftp"
+      sudo_add_to_file('/etc/fstab',"#{target_tmpfs_dir} #{target_user}/ftp none rw,bind,noauto,noatime 0 0")
+      sudo cmd = "mount ~#{target_user}/ftp"
+      cron_commands << cmd
     end
     sudo_add_to_crontab(cron_commands.compact.compact,'@reboot')
   end
