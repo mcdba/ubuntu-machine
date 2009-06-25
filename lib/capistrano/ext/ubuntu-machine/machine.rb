@@ -10,14 +10,13 @@ namespace :machine do
     run_and_watch_prompt("adduser #{user_to_create}", [/Enter new UNIX password/, /Retype new UNIX password:/, /\[\]\:/, /\[y\/N\]/i])
     
     # force the non-interactive mode
-    run "cat /etc/environment > ~/environment.tmp"
-    run 'echo DEBIAN_FRONTEND=noninteractive >> ~/environment.tmp'
-    sudo 'mv ~/environment.tmp /etc/environment'
+    add_to_file('/etc/environment','DEBIAN_FRONTEND=noninteractive')
     # prevent this env variable to be skipped by sudo
-    run "echo 'Defaults env_keep = \"DEBIAN_FRONTEND\"' >> /etc/sudoers"
+    sudoers_lines = ['Defaults env_keep = "DEBIAN_FRONTEND"']
+    sudoers_lines << "#{user_to_create} ALL=(ALL)ALL"
+    add_to_file('/etc/sudoers',sudoers_lines)
 
-    run "echo '#{user_to_create} ALL=(ALL)ALL' >> /etc/sudoers"
-    run "echo 'AllowUsers #{user_to_create}' >> /etc/ssh/sshd_config"
+    add_to_file('/etc/ssh/sshd_config',"AllowUsers #{user_to_create}")
     run "/etc/init.d/ssh reload"
   end
   
