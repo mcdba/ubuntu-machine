@@ -55,7 +55,7 @@ namespace :gems do
   # TODO: Refactor with deploy_local_gem
   desc "Scp a set of local gems preconfigured in :local_gems_to_deploy to the remote server and install them"
   task :deploy_local_gems, :roles => :app do
-    _cset :local_gems_to_deploy { abort "Please specify the local gems you want to deploy:\n  set :local_gems_to_deploy, ['/path/to/your_local-1.2.gem']" }
+    _cset(:local_gems_to_deploy) { abort "Please specify the local gems you want to deploy:\n  set :local_gems_to_deploy, ['/path/to/your_local-1.2.gem']" }
     run "mkdir -p gems"
     local_gems_to_deploy.each do |local_gem_path|
       `scp -P #{ssh_options[:port]} #{File.expand_path(local_gem_path)} #{user}@#{server_name}:gems/`
