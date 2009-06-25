@@ -1,7 +1,7 @@
 namespace :odbc do
-  _cset :odbc_sourcename  { abort "Please specify the odbc sourcename:\n  set :odbc_sourcename, 'MyFirstSQLServer'" }
-  _cset :odbc_database    { abort "Please specify the odbc database:\n  set :odbc_database, 'MyDB'" }
-  _cset :odbc_host        { abort "Please specify the odbc host:\n  set :odbc_host, '127.0.0.1'" }
+  _cset(:odbc_sourcename)  { abort "Please specify the odbc sourcename:\n  set :odbc_sourcename, 'MyFirstSQLServer'" }
+  _cset(:odbc_database)    { abort "Please specify the odbc database:\n  set :odbc_database, 'MyDB'" }
+  _cset(:odbc_host)        { abort "Please specify the odbc host:\n  set :odbc_host, '127.0.0.1'" }
   _cset :odbc_port,       '1433'
 
   desc "Install ODBC/FreeTDS"
