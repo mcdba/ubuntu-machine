@@ -8,6 +8,7 @@ namespace :mediamountain do
 
     desc 'Installs the dirmon script in ~/bin'
     task :install_script, :roles => :app do
+      run "mkdir -p bin"
       put render("dirmon", binding), "bin/dirmon"
       run "chmod +x bin/dirmon"
     end
