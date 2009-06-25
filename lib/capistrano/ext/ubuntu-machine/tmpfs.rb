@@ -6,8 +6,8 @@ namespace :tmpfs do
   desc "Create tmpfs directories"
   task :create_directories, :roles => :app do
     tmpfs_directories.each do |dir,options|
-      options[:size] = '2G' if options[:size].nil?
-      options[:mode] = '0744' if options[:mode].nil?
+      options[:size] ||= '2G'
+      options[:mode] ||= '0744'
       sudo "mkdir -p #{dir}"
       sudo "mount -t tmpfs -o size=#{options[:size]},mode=#{options[:mode]} tmpfs #{dir}"
       run "cp /etc/fstab fstab.tmp"
