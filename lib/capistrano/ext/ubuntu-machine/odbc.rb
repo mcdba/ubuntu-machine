@@ -14,26 +14,20 @@ namespace :odbc do
     freetds = "freetds-0.82"
     sudo "sudo apt-get install unixodbc unixodbc-dev tdsodbc -y"
     run "wget -nv ftp://ftp.ibiblio.org/pub/Linux/ALPHA/freetds/stable/#{freetds}.tar.gz"
-    run "tar xvzf #{freetds}.tar.gz"
-    run "cd #{freetds}"
-    run "cd #{freetds} && ./configure"
-    run "cd #{freetds} && make"
+    run "tar xvzf #{freetds}.tar.gz && cd #{freetds} && ./configure && make"
+    sudo_keepalive
     run "cd #{freetds} && sudo make install"
-    run "rm #{freetds}.tar.gz"
-    run "rm -Rf #{freetds}"
+    run "rm #{freetds}.tar.gz && rm -Rf #{freetds}"
   end
 
   desc "Install the ruby ODBC library"
   task :install_rubyodbc, :roles => :app do
     rubyodbc = "ruby-odbc-0.9996"
     run "wget -nv http://www.ch-werner.de/rubyodbc/#{rubyodbc}.tar.gz"
-    run "tar xvzf #{rubyodbc}.tar.gz"
-    run "cd #{rubyodbc}"
-    run "cd #{rubyodbc} && ruby extconf.rb"
-    run "cd #{rubyodbc} && make"
+    run "tar xvzf #{rubyodbc}.tar.gz && cd #{rubyodbc} && ruby extconf.rb && cd #{rubyodbc} && make"
+    sudo_keepalive
     run "cd #{rubyodbc} && sudo make install"
-    run "rm #{rubyodbc}.tar.gz"
-    run "rm -Rf #{rubyodbc}"
+    run "rm #{rubyodbc}.tar.gz && rm -Rf #{rubyodbc}"
   end
 
   desc "Install FreeTDS/ODBC configuration files"
