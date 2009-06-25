@@ -45,3 +45,8 @@ def sudo_add_to_file(file,lines)
   add_to_file(tmpfile,lines)
   sudo "mv #{tmpfile} #{file}"
 end
+
+# Re-activate sudo session if it has expired.
+def sudo_keepalive
+  sudo "ls > /dev/null"
+end
