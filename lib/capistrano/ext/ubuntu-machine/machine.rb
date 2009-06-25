@@ -27,6 +27,8 @@ namespace :machine do
   end
   
   task :install_dev_tools do
+    _cset :default_to_ruby_enterprise, true
+
     mysql.install
     apache.install
     ruby.install
@@ -34,7 +36,7 @@ namespace :machine do
     gems.install_rubygems
     gems.add_nodocs_to_gemrc
     ruby.install_enterprise
-    ruby.make_enterprise_default
+    ruby.make_enterprise_default if default_to_ruby_enterprise
     ruby.install_passenger
     git.install
     php.install
