@@ -33,8 +33,8 @@ def watch_prompt(ch, stream, data, regex_to_watch)
   end
 end
 
-def add_to_file(file,*lines)
-  lines.each do |line|
+def add_to_file(file,lines)
+  [*lines].each do |line|
     run 'echo "%s" >> %s' % [line.gsub('"','\"'),file]
   end
 end
