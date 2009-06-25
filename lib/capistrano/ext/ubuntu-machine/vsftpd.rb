@@ -8,11 +8,15 @@ namespace :vsftpd do
     sudo "aptitude install -y vsftpd"
     configure
     add_nologin_shell
+    create_group
+    add_user_to_group
     create_users
   end
 
   desc "Install VSFTPd configuration file"
   task :configure do
+    # TODO: Don't use a template for the config, or append it to the existing config.
+    # TODO: Other solution could be to allow setting a local config file which will be uploaded.
     put render("vsftpd.conf", binding), "vsftpd.conf"
     sudo "mv vsftpd.conf /etc/vsftpd.conf"
     restart
@@ -30,12 +34,20 @@ namespace :vsftpd do
   desc "Create VSFTPd-only users"
   task :create_users do
     vsftpd_users.each do |user_to_create|
-      sudo "groupadd -f #{vsftpd_group}"
-      sudo "usermod -a -G #{vsftpd_group} #{user}"
       sudo "useradd --shell #{vsftpd_user_shell} --groups #{vsftpd_group} -m #{user_to_create}"
       puts "Changing password for #{user_to_create}:"
       sudo_and_watch_prompt("passwd #{user_to_create}", [/Enter new UNIX password/, /Retype new UNIX password:/, /\[\]\:/, /\[y\/N\]/i])
     end
+  end
+
+  desc "Create VSFTPd group"
+  task :create_group do
+    sudo "groupadd -f #{vsftpd_group}"
+  end
+
+  desc "Adds current user to VSFTPd group"
+  task :add_user_to_group do
+    sudo "usermod -a -G #{vsftpd_group} #{user}"
   end
 
   desc "Start the vsftpd server"
