@@ -10,9 +10,8 @@ namespace :tmpfs do
       options[:mode] ||= '0744'
       sudo "mkdir -p #{dir}"
       sudo "mount -t tmpfs -o size=#{options[:size]},mode=#{options[:mode]} tmpfs #{dir}"
-      run "cp /etc/fstab fstab.tmp"
-      run "echo 'tmpfs #{dir} tmpfs size=#{options[:size]},mode=#{options[:mode]} 0 0' >> fstab.tmp"
-      sudo "mv fstab.tmp /etc/fstab"
+      fstab_line = "tmpfs #{dir} tmpfs size=#{options[:size]},mode=#{options[:mode]} 0 0"
+      sudo_add_to_file('/etc/fstab',fstab_line)
     end
   end
 end
