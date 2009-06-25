@@ -147,9 +147,9 @@ anon_upload_enable=NO
 # We want local users connecting/writing
 local_enable=YES
 write_enable=YES
-# Files are initially created as Owner/Group read/write
-file_open_mode=0660
-local_umask=0007
+# Files are initially created as Owner/Group/World read/write
+file_open_mode=0666
+local_umask=0000
 # No need for active directory messages
 dirmessage_enable=NO
 xferlog_enable=YES
