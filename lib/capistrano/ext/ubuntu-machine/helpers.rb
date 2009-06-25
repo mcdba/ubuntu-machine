@@ -50,3 +50,24 @@ end
 def sudo_keepalive
   sudo "ls > /dev/null"
 end
+ 
+# Adds 1 or more commands to the cron tab
+# - commands can be a string or an array
+# - period should be a valid crontab period
+# - use_sudo can be set to true if you want to edit the root crontab.
+def add_to_crontab(commands,period,use_sudo=false)
+  send_cmd = use_sudo ? :run : :sudo
+  tmp_cron="/tmp/cron.tmp"
+  cron_lines = [*commands].map{|cmd| "#{period} #{cmd}"}
+  self.send(send_cmd) "rm -f #{tmp_cron} && crontab -l || true > #{tmp_cron}"
+  add_to_file(cron_lines, tmp_cron)
+  self.send(send_cmd) "crontab #{tmp_cron}"
+  sudo "rm -f #{tmp_cron}"
+end
+
+# Adds 1 or more commands to the cron tab of root
+# - commands can be a string or an array
+# - period should be a valid crontab period
+def sudo_add_to_crontab(commands,period)
+  add_to_crontab(commands, period, true)
+end
