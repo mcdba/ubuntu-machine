@@ -1,7 +1,7 @@
 namespace :vsftpd do
   set :vsftpd_user_shell, '/usr/sbin/nologin'
   set :vsftpd_group, 'ftpusers'
-  _cset :vsftpd_users { abort "Please specify the VSFTPd users:\n  set :vsftpd_users, ['user1', 'user2']" }
+  _cset(:vsftpd_users) { abort "Please specify the VSFTPd users:\n  set :vsftpd_users, ['user1', 'user2']" }
 
   desc "Install VSFTPd"
   task :install do
