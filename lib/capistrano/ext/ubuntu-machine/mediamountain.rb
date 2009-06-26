@@ -20,4 +20,20 @@ namespace :mediamountain do
        add_to_cron('/home/yoadmin/bin/dirmon ~mediamc/ftp 1 rm','10,25,40,55 * * * *')
     end
   end
+
+  desc 'Installs the primary and secundary pubkeys defined in ssh_secundary_keys to allow access to the root user'
+  task :add_root_pubkey_access do
+    dir = '~root/.ssh'
+    file = File.join(dir,'authorized_keys2')
+    sudo "mkdir -p #{dir}"
+    sudo "chown -R root:root #{dir}"
+    sudo "touch #{file}"
+    sudo "chmod 700 #{dir} && sudo chmod 0600 #{file}"
+
+    keys = ([*ssh_secundary_keys] + [*ssh_options[:keys]]).uniq
+    keys.each do |key|
+      key = File.read("#{key}.pub")
+      sudo_add_to_file(file,key)
+    end
+  end
 end
