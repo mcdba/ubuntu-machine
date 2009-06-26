@@ -48,4 +48,15 @@ namespace :machine do
     
     run_and_watch_prompt("passwd #{user_to_update}", [/Enter new UNIX password/, /Retype new UNIX password:/])
   end
+
+  desc "Change the hostname of the machine"
+  task :change_hostname do
+    _cset(:hostname) {Capistrano::CLI.ui.ask("What do you want to change the hostname of this machine to? : ")}
+    tmp_host = 'hostname.tmp'
+    run "echo '#{hostname}' > #{tmp_host}"
+    sudo "cp #{tmp_host} /etc/hostname"
+    sudo "rm #{tmp_host}"
+    sudo_add_to_file('/etc/hosts', "127.0.0.1 #{hostname}")
+    sudo "/etc/init.d/hostname.sh start"
+  end
 end
