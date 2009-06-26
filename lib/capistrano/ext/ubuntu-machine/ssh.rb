@@ -1,5 +1,7 @@
 namespace :ssh do
   _cset :ssh_secundary_keys, []
+  _cset(:ssh_config_port) {ssh_options[:port] || 22}
+
   desc <<-DESC
     Setup SSH on the gateway host. Runs `upload_keys`, `install_ovh_ssh_key` AND \
     `configure_sshd` then reloads the SSH service to finalize the changes.
