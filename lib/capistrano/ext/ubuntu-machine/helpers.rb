@@ -61,9 +61,10 @@ end
 def add_to_crontab(commands,period,use_sudo=false)
   send_cmd = use_sudo ? :sudo : :run
   tmp_cron="/tmp/cron.tmp"
+  self.send(send_cmd, "rm -f #{tmp_cron} && touch #{tmp_cron}")
+  self.send(send_cmd, "(crontab -l || true) > #{tmp_cron}")
   cron_lines = [*commands].map{|cmd| "#{period} #{cmd}"}
-  self.send(send_cmd, "rm -f #{tmp_cron} && crontab -l || true > #{tmp_cron}")
-  add_to_file(cron_lines, tmp_cron)
+  add_to_file(tmp_cron, cron_lines)
   self.send(send_cmd, "crontab #{tmp_cron}")
   sudo "rm -f #{tmp_cron}"
 end
