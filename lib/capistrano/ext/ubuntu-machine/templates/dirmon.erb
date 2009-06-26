@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+class Dirmon
+  attr_accessor :dir
+
+  def initialize(dir)
+    @dir = dir
+  end
+
+  def older_than(limit)
+    files = Dir.glob(File.join(dir,'*'))
+    files.select {|f| File.file?(f) && File.mtime(f) < limit }
+  end
+end
+
+dir = File.expand_path(ARGV.shift)
+timeout_hours = Integer(ARGV.shift)
+action = ARGV.shift
+
+timeout_hours = 1 if timeout_hours < 1
+timeout_seconds = timeout_hours * 3600
+dm = Dirmon.new(dir)
+now = Time.now
+timeout = now - timeout_seconds
+old_files = dm.older_than(timeout)
+case action
+when 'rm'
+  old_files.each {|f| File.delete(f)}
+else
+  puts 'Files in %s older than %i hours' % [dir, timeout_hours]
+  maxlen = old_files.map{|f| f.size}.max
+  old_files.each do |f|
+      puts "%#{maxlen}s Age: %ih " % [f, (now - File.mtime(f))/3600]
+  end
+end
