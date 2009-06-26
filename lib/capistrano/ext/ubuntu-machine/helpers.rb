@@ -41,9 +41,12 @@ end
 
 def sudo_add_to_file(file,lines)
   tmpfile = "#{File.basename(file)}.tmp"
-  run "cp #{file} #{tmpfile}"
+  sudo "cp #{file} #{tmpfile}"
+  # Temporarily make world read/writable so it can be appended to. 
+  sudo "chmod 0777 #{tmpfile} && sudo chown #{user}:#{user} #{tmpfile}"
   add_to_file(tmpfile,lines)
-  sudo "mv #{tmpfile} #{file}"
+  # Use cp + rm instead mv so the destination file will keep its owner/modes.
+  sudo "cp #{tmpfile} #{file} && rm #{tmpfile}"
 end
 
 # Re-activate sudo session if it has expired.
