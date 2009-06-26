@@ -56,7 +56,7 @@ end
 # - period should be a valid crontab period
 # - use_sudo can be set to true if you want to edit the root crontab.
 def add_to_crontab(commands,period,use_sudo=false)
-  send_cmd = use_sudo ? :run : :sudo
+  send_cmd = use_sudo ? :sudo : :run
   tmp_cron="/tmp/cron.tmp"
   cron_lines = [*commands].map{|cmd| "#{period} #{cmd}"}
   self.send(send_cmd, "rm -f #{tmp_cron} && crontab -l || true > #{tmp_cron}")
