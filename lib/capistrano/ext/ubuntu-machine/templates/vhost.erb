@@ -1,4 +1,5 @@
-<VirtualHost *:80>
+NameVirtualHost *:<%= server_port %>
+<VirtualHost *:<%= server_port %>>
 
   # Admin email, Server Name (domain name) and any aliases
   ServerAdmin <%= server_admin %>
@@ -7,11 +8,11 @@
 
   # Index file and Document Root (where the public files are located)
   DirectoryIndex <%= directory_index %>
-  DocumentRoot /home/<%= user %>/websites/<%= server_name %>/public
+  DocumentRoot <%= document_root %>
 
   # Custom log file locations
   LogLevel warn
-  ErrorLog  /home/<%= user %>/websites/<%= server_name %>/logs/error.log
-  CustomLog /home/<%= user %>/websites/<%= server_name %>/logs/access.log combined
+  ErrorLog  <%= sites_path %>/<%= server_name %>/logs/error.log
+  CustomLog <%= sites_path %>/<%= server_name %>/logs/access.log combined
 
 </VirtualHost>
