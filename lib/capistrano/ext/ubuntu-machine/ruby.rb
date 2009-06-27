@@ -50,7 +50,7 @@ namespace :ruby do
     sudo "ln -s #{ruby_enterprise_path_prefix}/#{ruby_enterprise_version} #{ruby_enterprise_path_prefix}/ruby-enterprise" 
     
     # add REE bin to the path
-    sudo_add_to_file('/etc/environment','echo PATH="%s/ruby-enterprise/bin:$PATH"' % ruby_enterprise_path_prefix)
+    sudo_add_to_file('/etc/environment','PATH="%s/ruby-enterprise/bin:$PATH"' % ruby_enterprise_path_prefix)
   end
   
   desc "Install Phusion Passenger"
