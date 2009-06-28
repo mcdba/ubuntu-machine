@@ -135,6 +135,11 @@ namespace :apache do
     run "tar -xzf mod_xsendfile-0.9.tar.gz"
     sudo "mkdir -p /usr/local/src"
     sudo "mv mod_xsendfile-0.9* /usr/local/src/"
-    sudo "apxs2 -cia /usr/local/src/mod_xsendfile-0.9/mod_xsendfile.c"
+    sudo "apxs2 -ci /usr/local/src/mod_xsendfile-0.9/mod_xsendfile.c"
+    put render("xsendfile.conf", binding), "xsendfile.conf.tmp"
+    sudo "mv xsendfile.conf.tmp /etc/apache2/mods-available/"
+    put render("xsendfile.load", binding), "xsendfile.load.tmp"
+    sudo "mv xsendfile.load.tmp /etc/apache2/mods-available/"
+    sudo "a2enmod xsendfile"
   end
 end
