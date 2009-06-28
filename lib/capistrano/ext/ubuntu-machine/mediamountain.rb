@@ -55,7 +55,7 @@ namespace :mediamountain do
   desc "Clones sensors.git and crontabs it"
   task :install_sensors do
     ssh_pubkey
-    run "if test -x sensors; then cd sensors && git checkout master && git pull; else git clone git@yomediagit:sensors.git; fi"
+    run_and_watch_prompt "if test -x sensors; then cd sensors && git checkout master && git pull; else git clone yomediagit:sensors.git; fi", /Are you sure you want to continue connecting/
     run "cd sensors && bin/add_to_cron"
   end
 end
