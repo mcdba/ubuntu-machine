@@ -44,4 +44,18 @@ namespace :mediamountain do
     run "if test -x libxml_rails; then cd libxml_rails && git checkout master && git pull; else git clone git://github.com/Narnach/libxml_rails.git; fi"
     run "cd libxml_rails && git checkout 0.0.2.4 && rake install"
   end
+
+  desc "Generates and/or outputs ssh pubkey"
+  task :ssh_pubkey do
+    run_and_watch_prompt "if test -s .ssh/id_rsa.pub; then cat .ssh/id_rsa.pub; else ssh-keygen -t rsa && cat .ssh/id_rsa.pub; fi", [/Enter file in which to save the key/,/Enter passphrase/,/Enter same passphrase/,/Overwrite/]
+    puts "copy the above key to gitosis-admin as #{hostname}.pub and add #{hostname} to the members of the skiparks group"
+    puts "example: scp #{hostname}:.ssh/id_rsa.pub ~/Development/yoMedia/gitosis-admin/keydir/#{hostname}.pub"
+  end
+
+  desc "Clones sensors.git and crontabs it"
+  task :install_sensors do
+    ssh_pubkey
+    run "if test -x sensors; then cd sensors && git checkout master && git pull; else git clone git@yomediagit:sensors.git; fi"
+    run "cd sensors && bin/add_to_cron"
+  end
 end
