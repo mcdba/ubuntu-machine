@@ -42,16 +42,15 @@ namespace :gems do
     run "echo 'gem: --no-rdoc --no-ri' >> ~/.gemrc"
   end
 
-  # TODO: Replace scp with Capistrano's way of uploading/deploying files.
   desc "Scp local gem to the remote server and install it"
   task :deploy_local_gem, :roles => :app do
     local_gem_path = Capistrano::CLI.ui.ask("Please supply the path to the local gem: ")
     run "mkdir -p gems"
-    `scp -P #{ssh_options[:port]} #{File.expand_path(local_gem_path)} #{user}@#{server_name}:gems/`
-    sudo "gem install -l gems/#{File.basename(local_gem_path)}"
+    upload(local_gem_path,'~/gems/',:via => :scp, :recursive => false)
+    sudo_keepalive
+    run "cd gems/ && sudo gem install -b #{File.basename(local_gem_path)}"
   end
 
-  # TODO: Replace scp with Capistrano's way of uploading/deploying files.
   # TODO: Refactor with deploy_local_gem
   desc "Scp a set of local gems preconfigured in :local_gems_to_deploy to the remote server and install them"
   task :deploy_local_gems, :roles => :app do
