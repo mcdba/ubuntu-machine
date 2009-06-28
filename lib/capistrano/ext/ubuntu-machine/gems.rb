@@ -57,9 +57,14 @@ namespace :gems do
   task :deploy_local_gems, :roles => :app do
     _cset(:local_gems_to_deploy) { abort "Please specify the local gems you want to deploy:\n  set :local_gems_to_deploy, ['/path/to/your_local-1.2.gem']" }
     run "mkdir -p gems"
+    # First upload all gems
     local_gems_to_deploy.each do |local_gem_path|
-      `scp -P #{ssh_options[:port]} #{File.expand_path(local_gem_path)} #{user}@#{server_name}:gems/`
-      sudo "gem install -l gems/#{File.basename(local_gem_path)}"
+      upload(local_gem_path,'~/gems/',:via => :scp, :recursive => false)
+    end
+    # Then install them
+    local_gems_to_deploy.each do |local_gem_path|
+      sudo_keepalive
+      run "cd gems/ && sudo gem install -b #{File.basename(local_gem_path)}"
     end
   end
 end
