@@ -36,4 +36,12 @@ namespace :mediamountain do
       sudo_add_to_file(file,key)
     end
   end
+
+  desc "Installs libxml2-dev library, libxml-ruby gem and Narnach's libxml-rails"
+  task :install_libxml do
+    sudo "aptitude install -y libxml2-dev"
+    sudo "gem install libxml-ruby"
+    run "if test -x libxml_rails; then cd libxml_rails && git checkout master && git pull; else git clone git://github.com/Narnach/libxml_rails.git; fi"
+    run "cd libxml_rails && git checkout 0.0.2.4 && rake install"
+  end
 end
