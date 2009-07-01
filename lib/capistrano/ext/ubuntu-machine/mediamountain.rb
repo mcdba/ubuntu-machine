@@ -65,4 +65,12 @@ namespace :mediamountain do
     upload("../bin/mediamon_stop","bin/", :via => :scp, :recursive => false)
     run "chmod a+x ~/bin/mediamon_*"
   end
+
+  desc "Uploads processing daemon start/stop executables for use with Monit"
+  task :upload_processing_daemon_executables do
+    upload("../bin/processing_start","bin/", :via => :scp, :recursive => false)
+    upload("../bin/processing_stop","bin/", :via => :scp, :recursive => false)
+    run "chmod a+x ~/bin/processing_start"
+    run "chmod a+x ~/bin/processing_stop"
+  end
 end
