@@ -58,4 +58,11 @@ namespace :mediamountain do
     run_and_watch_prompt "if test -x sensors; then cd sensors && git checkout master && git pull; else git clone yomediagit:sensors.git; fi", /Are you sure you want to continue connecting/
     run "cd sensors && bin/add_to_cron"
   end
+
+  desc "Uploads media_monitor start/stop executables for use with Monit"
+  task :upload_mediamon_executables do
+    upload("../bin/mediamon_start","bin/", :via => :scp, :recursive => false)
+    upload("../bin/mediamon_stop","bin/", :via => :scp, :recursive => false)
+    run "chmod a+x ~/bin/mediamon_*"
+  end
 end

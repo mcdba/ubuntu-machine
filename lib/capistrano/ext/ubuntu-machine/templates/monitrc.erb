@@ -1,0 +1,16 @@
+set daemon 10
+set logfile syslog facility log_daemon
+set mailserver <%= mail_server %> username "<%= monit_mail_user %>" password "<%= monit_mail_password %>" using "<%= mail_domain %>"
+set mail-format { 
+  from: <%= monit_mail_user %>
+  subject: [<%= hostname.capitalize %>] $SERVICE -- $EVENT
+}
+set alert <%= monit_mail_user %>
+set httpd port 2812
+  allow localhost
+
+set eventqueue
+     basedir /var/monit  # set the base directory where events will be stored
+     slots 1000           # optionaly limit the queue size
+
+include /etc/monit.d/*
