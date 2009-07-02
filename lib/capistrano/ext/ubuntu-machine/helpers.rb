@@ -75,3 +75,12 @@ end
 def sudo_add_to_crontab(commands,period)
   add_to_crontab(commands, period, true)
 end
+
+def upload_bin_executables(*bin_files)
+  _cset :bin_executables_path, '../bin'
+  _cset :remote_bin_executables_path, 'bin'
+  bin_files.each do |bin_file|
+    upload("#{bin_executables_path}/#{bin_file}","#{remote_bin_executables_path}/", :via => :scp, :recursive => false)
+    run "chmod a+x #{remote_bin_executables_path}/#{bin_file}"
+  end
+end

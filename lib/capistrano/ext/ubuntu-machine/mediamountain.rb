@@ -55,22 +55,52 @@ namespace :mediamountain do
   desc "Clones sensors.git and crontabs it"
   task :install_sensors do
     ssh_pubkey
+    retrieve_sensors_code
+    add_sensors_to_cron
+  end
+
+  desc "Retrieve sensors code"
+  task :retrieve_sensors_code do
     run_and_watch_prompt "if test -x sensors; then cd sensors && git checkout master && git pull; else git clone yomediagit:sensors.git; fi", /Are you sure you want to continue connecting/
+  end
+
+  desc "Adds sensors to cron"
+  task :add_sensors_to_cron do
     run "cd sensors && bin/add_to_cron"
+  end
+
+  desc "Installs the master for sensors, which periodically mails all output"
+  task :install_sensors_master do
+    ssh_pubkey
+    retrieve_sensors_code
+    upload_mail_executable
+    upload_skipark_report_executable
+
+    _cset(:skireport_daily_recipients) { abort 'Please set :skireport_daily_recipients, ["Recipient 1 name <recipient@domain.example>","Recipient 1 name <recipient@domain.example>"]'}
+    _cset(:skireport_hourly_recipients) { abort 'Please set :skireport_hourly_recipients, ["Recipient 1 name <recipient@domain.example>","Recipient 1 name <recipient@domain.example>"]'}
+    recipients = skireport_hourly_recipients.map{|r| '"%s"' % r.gsub('"','\"')}.join(' ')
+    add_to_crontab('~/bin/skipark_report.rb -v | ~/bin/mail.rb "Hour-Check" %s' % recipients,'10   9-19    * * *')
+    recipients = skireport_daily_recipients.map{|r| '"%s"' % r.gsub('"','\"')}.join(' ')
+    add_to_crontab('~/bin/skipark_report.rb | ~/bin/mail.rb "Day-Check" %s' % recipients,'10   19    * * *')
+  end
+
+  desc "Uploads mail script executables for use with for instance skireport"
+  task :upload_mail_executable do
+    upload_bin_executables('mail.rb')
+  end
+
+  desc "Uploads skipark_report executable which gathers all skipark report data"
+  task :upload_skipark_report_executable do
+    upload_bin_executables('skipark_report.rb')
   end
 
   desc "Uploads media_monitor start/stop executables for use with Monit"
   task :upload_mediamon_executables do
-    upload("../bin/mediamon_start","bin/", :via => :scp, :recursive => false)
-    upload("../bin/mediamon_stop","bin/", :via => :scp, :recursive => false)
-    run "chmod a+x ~/bin/mediamon_*"
+    upload_bin_executables('mediamon_start','mediamon_stop')
   end
 
   desc "Uploads processing daemon start/stop executables for use with Monit"
   task :upload_processing_daemon_executables do
-    upload("../bin/processing_start","bin/", :via => :scp, :recursive => false)
-    upload("../bin/processing_stop","bin/", :via => :scp, :recursive => false)
-    run "chmod a+x ~/bin/processing_start"
-    run "chmod a+x ~/bin/processing_stop"
+    upload_bin_executables('processing_start','processing_stop')
   end
 end
