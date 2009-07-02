@@ -48,7 +48,7 @@ namespace :gems do
     run "mkdir -p gems"
     upload(local_gem_path,'~/gems/',:via => :scp, :recursive => false)
     sudo_keepalive
-    run "cd gems/ && sudo gem install -b #{File.basename(local_gem_path)}"
+    run "cd gems/ && sudo gem install -l #{File.basename(local_gem_path)}"
   end
 
   # TODO: Refactor with deploy_local_gem
@@ -63,7 +63,7 @@ namespace :gems do
     # Then install them
     local_gems_to_deploy.each do |local_gem_path|
       sudo_keepalive
-      run "cd gems/ && sudo gem install -b #{File.basename(local_gem_path)}"
+      run "cd gems/ && sudo gem install -l #{File.basename(local_gem_path)}"
     end
   end
 end
