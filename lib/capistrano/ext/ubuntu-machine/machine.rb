@@ -59,4 +59,24 @@ namespace :machine do
     sudo_add_to_file('/etc/hosts', "127.0.0.1 #{hostname}")
     sudo "/etc/init.d/hostname.sh start"
   end
+
+  desc "Add current path to crontab"
+  task :add_path_to_crontab do
+    tmp_cron="/tmp/cron.tmp"
+    run "rm -f #{tmp_cron} && touch #{tmp_cron}"
+    run "echo PATH=$PATH > #{tmp_cron}"
+    run "(crontab -l || true) >> #{tmp_cron}"
+    run "crontab #{tmp_cron}"
+    run "rm -f #{tmp_cron}"
+  end
+
+  desc "Add current path to sudo crontab"
+  task :sudo_add_path_to_crontab do
+    tmp_cron="/tmp/cron.tmp"
+    sudo "rm -f #{tmp_cron} && touch #{tmp_cron}"
+    run "echo PATH=$PATH > #{tmp_cron}"
+    run "(sudo crontab -l || true) >> #{tmp_cron}"
+    sudo "crontab #{tmp_cron}"
+    sudo "rm -f #{tmp_cron}"
+  end
 end
