@@ -1,5 +1,5 @@
 namespace :ssh do
-  _cset :ssh_secundary_keys, []
+  _cset :ssh_secondary_keys, []
   _cset(:ssh_config_port) {ssh_options[:port] || 22}
 
   desc <<-DESC
@@ -13,19 +13,19 @@ namespace :ssh do
     reload
   end
 
-  desc "Uploads secundary ssh pubkeys defined in ssh_secundary_keys which don't necessarily belong to you."
-  task :add_secundary_keys do
+  desc "Uploads secondary ssh pubkeys defined in ssh_secondary_keys which don't necessarily belong to you."
+  task :add_secondary_keys do
     run "mkdir -p ~/.ssh"
     run "chown -R #{user}:#{user} ~/.ssh"
     run "chmod 700 ~/.ssh"
 
-    [*ssh_secundary_keys].each do |key|
+    [*ssh_secondary_keys].each do |key|
       key = File.read("#{key}.pub").strip
       run "echo '#{key}' >> ./.ssh/authorized_keys2"
     end
   end
 
-  after 'ssh:add_secundary_keys', 'ssh:cleanup_keys'
+  after 'ssh:add_secondary_keys', 'ssh:cleanup_keys'
 
   desc 'Sort and remove duplicate keys. Useful if you run ssh:add_secondary_keys multiple times by accident.'
   task :cleanup_keys do
