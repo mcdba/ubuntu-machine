@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/FiXato/ubuntu-machine"
   s.description = "Capistrano recipes for setting up and deploying to a Ubuntu Machine"
   s.has_rdoc = false
-  s.authors  = ["Thomas Balthazar","Tarik Alkasab","Filip H.F. 'FiXato' Slagter"]
+  s.authors  = ["Thomas Balthazar","Tarik Alkasab","Filip H.F. 'FiXato' Slagter", "Wes Oldenbeuving"]
   # s.files    = Dir["README", "MIT-LICENSE", "lib/capistrano/ext/**/*"]
   s.files    = ["README", 
                 "MIT-LICENSE", 
