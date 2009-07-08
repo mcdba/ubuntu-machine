@@ -20,7 +20,7 @@ namespace :ssh do
     run "chmod 700 ~/.ssh"
 
     [*ssh_secundary_keys].each do |key|
-      key = File.read("#{key}.pub")
+      key = File.read("#{key}.pub").strip
       run "echo '#{key}' >> ./.ssh/authorized_keys2"
     end
   end
