@@ -24,6 +24,13 @@ namespace :ssh do
       run "echo '#{key}' >> ./.ssh/authorized_keys2"
     end
   end
+
+  after 'ssh:add_secundary_keys', 'ssh:cleanup_keys'
+
+  desc 'Sort and remove duplicate keys. Useful if you run ssh:add_secondary_keys multiple times by accident.'
+  task :cleanup_keys do
+    run 'sort -u ~/.ssh/authorized_keys2 > /home/yoadmin/.ssh/authorized_keys2-sorted && mv /home/yoadmin/.ssh/authorized_keys2-sorted /home/yoadmin/.ssh/authorized_keys2'
+  end
   
   desc <<-DESC
     Uploads your local public SSH keys to the server. A .ssh folder is created if \
