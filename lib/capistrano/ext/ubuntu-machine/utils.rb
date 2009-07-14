@@ -42,5 +42,6 @@ namespace :utils do
     run "df"
     partition = Capistrano::CLI.ui.ask("Which partition do you want to run a filesystem check on, on every boot? ")
     sudo "tune2fs -c 1 #{partition}"
+    sudo 'sed -i -e s/FSCKFIX=no/FSCKFIX=yes/ /etc/default/rcS'
   end
 end
