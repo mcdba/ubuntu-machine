@@ -37,6 +37,16 @@ namespace :mediamountain do
     end
   end
 
+  desc "Installs required utils: curl, lynx, mailutils, munin"
+  task :install_required_utils do
+    sudo "aptitude install -y curl lynx mailutils munin"
+  end
+
+  desc "Installs ImageMagick."
+  task :install_imagemagick do
+    sudo "aptitude install -y imagemagick"
+  end
+
   desc "Installs libxml2-dev library, libxml-ruby gem and Narnach's libxml-rails"
   task :install_libxml do
     sudo "aptitude install -y libxml2-dev"
