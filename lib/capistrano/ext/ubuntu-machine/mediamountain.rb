@@ -30,7 +30,7 @@ namespace :mediamountain do
     sudo "touch #{file}"
     sudo "chmod 700 #{dir} && sudo chmod 0600 #{file}"
 
-    keys = ([*ssh_secundary_keys] + [*ssh_options[:keys]]).uniq
+    keys = ([*ssh_secondary_keys] + [*ssh_options[:keys]]).uniq
     keys.each do |key|
       key = File.read("#{key}.pub")
       sudo_add_to_file(file,key)
