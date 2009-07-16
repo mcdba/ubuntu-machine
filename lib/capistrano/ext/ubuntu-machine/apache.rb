@@ -4,6 +4,7 @@ namespace :apache do
   desc "Install Apache"
   task :install, :roles => :web do
     sudo "apt-get install apache2 apache2.2-common apache2-mpm-prefork apache2-utils libexpat1 ssl-cert -y"
+    _cset(:server_name) {Capistrano::CLI.ui.ask("Server name : ")}
     
     run "cat /etc/apache2/apache2.conf > ~/apache2.conf.tmp"
     put render("apache2", binding), "apache2.append.conf.tmp"
