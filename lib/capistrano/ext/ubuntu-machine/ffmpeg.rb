@@ -11,7 +11,7 @@ namespace :ffmpeg do
   task :install_dependencies, :roles => :app do
     #TODO: Ensure that the multiverse repositories/sources are available and being used by aptitude \
     # otherwise add them to /etc/apt/sources.list since they are needed for libraries such as libmp3lame-dev
-    sudo "aptitude install -y ccache checkinstall fakeroot liba52-0.7.4-dev liba52-dev libfaac-dev libfaad-dev libfreetype6-dev libgpac-dev libjpeg62-dev libmp3lame-dev libogg-dev libpng12-dev libtheora-dev libtiff4-dev libvorbis-dev libxvidcore4-dev"
+    sudo "aptitude install -y ccache checkinstall fakeroot liba52-0.7.4-dev liba52-dev libfaac-dev libfaad-dev libfreetype6-dev libgpac-dev libjpeg62-dev liblame-dev liblame0 libmp3lame-dev libogg-dev libpng12-dev libtheora-dev libtiff4-dev libvorbis-dev libxvidcore4-dev"
     run "wget http://www.tortall.net/projects/yasm/releases/yasm-0.7.1.tar.gz -O yasm-0.7.1.tar.gz && tar -xzf yasm-0.7.1.tar.gz && cd yasm-0.7.1 && ./configure && make && sudo checkinstall -y"
     sudo "ldconfig"
     run "if test -x x264; then cd x264 && git checkout master && git pull; else git clone git://git.videolan.org/x264.git; fi"
