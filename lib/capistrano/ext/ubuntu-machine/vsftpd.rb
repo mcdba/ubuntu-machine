@@ -24,8 +24,6 @@ namespace :vsftpd do
 
   desc "Add the :vsftpd_user_shell to /etc/shells"
   task :add_nologin_shell do
-    puts "If this fails, then the '#{vsftpd_user_shell}'-shell is already in /etc/shells"
-    run "test -z `grep #{vsftpd_user_shell} /etc/shells`"
     sudo_add_to_file('/etc/shells',vsftpd_user_shell)
   end
 
