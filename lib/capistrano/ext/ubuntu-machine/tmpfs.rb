@@ -20,16 +20,18 @@ namespace :tmpfs do
     cron_commands = []
     vsftpd_users.each do |target_user|
       target_tmpfs_dir = File.join(vsftpd_tmpfs_directory,target_user)
+      target_ftp_dir = File.join('/home',target_user,'ftp')
       cmds = []
       cmds << "mkdir -p #{target_tmpfs_dir}"
       cmds << "chown #{target_user}:#{vsftpd_group} #{target_tmpfs_dir}"
       cmds << "chmod 0777 #{target_tmpfs_dir}"
       cmds.each{|cmd| sudo cmd}
       cron_commands << cmds.join(' && ')
-      sudo_add_to_file('/etc/fstab',"#{target_tmpfs_dir} #{target_user}/ftp none rw,bind,noauto,noatime 0 0")
-      sudo cmd = "mount ~#{target_user}/ftp"
+      sudo_add_to_file('/etc/fstab',"#{target_tmpfs_dir} #{target_ftp_dir} none rw,bind,noauto,noatime 0 0")
+      sudo "mkdir -p #{target_ftp_dir} && sudo chown 0777 #{target_ftp_dir} && sudo chown #{target_user}:#{vsftpd_group} #{target_ftp_dir}"
+      sudo cmd = "mount #{target_ftp_dir}"
       cron_commands << cmd
     end
-    sudo_add_to_crontab(cron_commands.compact.compact,'@reboot')
+    sudo_add_to_crontab(cron_commands.flatten.compact,'@reboot')
   end
 end
