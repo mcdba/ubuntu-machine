@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name     = "ubuntu-machine"
-  s.version  = "0.5.3.2.12"
-  s.date     = "2009-07-08"
+  s.version  = "0.5.3.2.20"
+  s.date     = "2009-09-18"
   s.summary  = "Capistrano recipes for setting up and deploying to a Ubuntu Machine. Fork of SuitMyMind's ubuntu-machine"
   s.email    = "fixato@gmail.com"
   s.homepage = "http://github.com/FiXato/ubuntu-machine"
