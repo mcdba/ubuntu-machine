@@ -29,7 +29,7 @@ namespace :ssh do
 
   desc 'Sort and remove duplicate keys. Useful if you run ssh:add_secondary_keys multiple times by accident.'
   task :cleanup_keys do
-    run 'sort -u ~/.ssh/authorized_keys2 > /home/yoadmin/.ssh/authorized_keys2-sorted && mv /home/yoadmin/.ssh/authorized_keys2-sorted /home/yoadmin/.ssh/authorized_keys2'
+    run 'sort -u ~/.ssh/authorized_keys2 > ~/.ssh/authorized_keys2-sorted && mv ~/.ssh/authorized_keys2-sorted ~/.ssh/authorized_keys2'
   end
   
   desc <<-DESC
