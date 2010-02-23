@@ -1,15 +1,9 @@
 namespace :gems do
   desc "Install RubyGems"
-  task :install_rubygems, :roles => :app do
-    rubygems_location = 'http://rubyforge.org' + `curl -s http://rubyforge.org/frs/?group_id=126 | grep -oe /frs/download\.php/[0-9]\\\\+/rubygems-#{rubygem_version.gsub('.','\.')}\.tgz`
-    run "wget #{rubygems_location} -O rubygems-#{rubygem_version}.tgz"
-    run "tar xvzf rubygems-#{rubygem_version}.tgz"
+  task :install_rubygems, :roles => :app do	
+  	run "sudo apt-get install rubygems1.8"
+	run "sudo gem install rubygems-update"
     sudo_keepalive
-    run "cd rubygems-#{rubygem_version} && sudo ruby setup.rb"
-    sudo "ln -s /usr/bin/gem1.8 /usr/bin/gem"
-    sudo "gem update"
-    sudo "gem update --system"
-    run "rm -Rf rubygems-#{rubygem_version}*"
   end
   
   desc "List gems on remote server"
