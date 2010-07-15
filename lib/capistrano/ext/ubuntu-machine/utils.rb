@@ -23,25 +23,27 @@ namespace :utils do
 
   desc "Display passenger status information."
   task :passenger_status, :roles => :gateway do
-    sudo "#{ruby_enterprise_path_prefix}/ruby-enterprise/bin/passenger-status"
+    sudo "/opt/ruby-enterprise/bin/passenger-status"
   end
 
   desc "Display passenger memory usage information."
   task :passenger_memory, :roles => :gateway do
-    sudo "#{ruby_enterprise_path_prefix}/ruby-enterprise/bin/passenger-memory-stats"
+    sudo "/opt/ruby-enterprise/bin/passenger-memory-stats"
   end  
 
   desc "Activate Phusion Passenger Enterprise Edition."
   task :passenger_enterprise, :roles => :gateway do
 
-    sudo_and_watch_prompt("#{ruby_enterprise_path_prefix}/ruby-enterprise/bin/passenger-make-enterprisey", [/Key\:/,  /again\:/])
+    sudo_and_watch_prompt("/opt/ruby-enterprise/bin/passenger-make-enterprisey", [/Key\:/,  /again\:/])    
   end
-
-  desc "Force fsck to check the disk at every boot."
-  task :force_fsck_at_every_boot do
-    run "df"
-    partition = Capistrano::CLI.ui.ask("Which partition do you want to run a filesystem check on, on every boot? ")
-    sudo "tune2fs -c 1 #{partition}"
-    sudo 'sed -i -e s/FSCKFIX=no/FSCKFIX=yes/ /etc/default/rcS'
+  
+  
+  desc "Copy sources list"
+  task :copy_sources, :roles => :gateway do
+    put render("sources.jaunty", binding), "sources.list"
+     sudo "mv sources.list /etc/apt/sources.list"
+     sudo "apt-get update"
   end
+  
+  
 end

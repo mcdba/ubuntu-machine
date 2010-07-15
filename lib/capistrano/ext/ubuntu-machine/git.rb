@@ -7,7 +7,6 @@ namespace :git do
     run "cd #{git_version}"
     run "cd #{git_version} && ./configure"
     run "cd #{git_version} && make"
-    sudo_keepalive
     run "cd #{git_version} && sudo make install"
     run "rm #{git_version}.tar.gz"
     run "rm -Rf #{git_version}"
