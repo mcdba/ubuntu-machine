@@ -40,7 +40,7 @@ namespace :utils do
   
   desc "Copy sources list"
   task :copy_sources, :roles => :gateway do
-    put render("sources.jaunty", binding), "sources.list"
+    put render("sources.lucid", binding), "sources.list"
      sudo "mv sources.list /etc/apt/sources.list"
      sudo "apt-get update"
   end

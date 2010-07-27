@@ -1,13 +1,13 @@
 Gem::Specification.new do |s|
   s.name     = "ubuntu-machine"
   s.version  = "0.5.3.2.23"
-  s.date     = "2009-09-20"
+  s.date     = "2010-07-27"
   s.summary  = "Capistrano recipes for setting up and deploying to a Ubuntu Machine. Fork of SuitMyMind's ubuntu-machine"
   s.email    = "fixato@gmail.com"
   s.homepage = "http://github.com/FiXato/ubuntu-machine"
   s.description = "Capistrano recipes for setting up and deploying to a Ubuntu Machine"
   s.has_rdoc = false
-  s.authors  = ["Thomas Balthazar","Tarik Alkasab","Filip H.F. 'FiXato' Slagter", "Wes Oldenbeuving"]
+  s.authors  = ["Thomas Balthazar","Tarik Alkasab","Filip H.F. 'FiXato' Slagter", "Wes Oldenbeuving","Rachid Al Maach"]
   # s.files    = Dir["README", "MIT-LICENSE", "lib/capistrano/ext/**/*"]
   s.files    = ["README", 
                 "MIT-LICENSE", 
@@ -32,7 +32,8 @@ Gem::Specification.new do |s|
                 "lib/capistrano/ext/ubuntu-machine/ssh.rb", 
                 "lib/capistrano/ext/ubuntu-machine/tmpfs.rb", 
                 "lib/capistrano/ext/ubuntu-machine/utils.rb", 
-                "lib/capistrano/ext/ubuntu-machine/vsftpd.rb", 
+                "lib/capistrano/ext/ubuntu-machine/vsftpd.rb",
+                "lib/capistrano/ext/ubuntu-machine/rails3.rb", 
                 "lib/capistrano/ext/ubuntu-machine/templates/apache2.erb", 
                 "lib/capistrano/ext/ubuntu-machine/templates/deflate.conf.erb",
                 "lib/capistrano/ext/ubuntu-machine/templates/freetds.conf.erb",
@@ -49,7 +50,9 @@ Gem::Specification.new do |s|
                 "lib/capistrano/ext/ubuntu-machine/templates/vhost.erb", 
                 "lib/capistrano/ext/ubuntu-machine/templates/vsftpd.conf.erb",
                 "lib/capistrano/ext/ubuntu-machine/templates/xsendfile.load.erb",
-                "lib/capistrano/ext/ubuntu-machine/templates/xsendfile.conf.erb"
+                "lib/capistrano/ext/ubuntu-machine/templates/sources.jaunty.erb",
+                "lib/capistrano/ext/ubuntu-machine/templates/sources.lucid.erb"
+                
                 ]
   
   s.add_dependency("capistrano", ["> 2.5.2"])

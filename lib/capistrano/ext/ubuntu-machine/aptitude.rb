@@ -86,7 +86,7 @@ namespace :aptitude do
     http://articles.slicehost.com/2007/11/6/ubuntu-gutsy-setup-page-2
   DESC
   task :setup, :roles => :app do
-    put render("sources.jaunty", binding), "sources.list"
+    put render("sources.lucid", binding), "sources.list"
     sudo "mv sources.list /etc/apt/sources.list"
     sudo "apt-get update"
     update
