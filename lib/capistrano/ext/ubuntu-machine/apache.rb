@@ -95,7 +95,7 @@ namespace :apache do
 
     # Website skeleton
     %w{backup cap cgi-bin logs private public tmp}.each { |d|
-      run "mkdir -p /home/#{user}/websites/#{server_name}/current/#{d}"
+      run "mkdir -p /home/#{user}/websites/#{server_name}/#{d}"
     }
     
     put render("vhost", binding), server_name
